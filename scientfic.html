@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Calculator</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    
+   
+
+<style type="text/css">
+       /* Using box shadows to create 3D effects */
+#calculator {
+  width: 325px;
+  height: auto;
+  
+  margin: 10px auto;
+  padding: 20px 20px 9px;
+  
+  background: linear-gradient(#9dd2ea, #8bceec);
+  border-radius: 3px;
+  box-shadow: 0px 4px #009de4, 0px 10px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Top portion */
+.top span.clear {
+  float: left;
+}
+
+/* Inset shadow on the screen to create indent */
+.top .screen {
+  height: 40px;
+  width: 212px;
+  
+  float: right;
+  
+  padding: 0 10px;
+  
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  box-shadow: inset 0px 4px rgba(0, 0, 0, 0.2);
+  
+  /* Typography */
+  font-size: 17px;
+  line-height: 40px;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  text-align: right;
+  letter-spacing: 1px;
+}
+
+/* Clear floats */
+.keys, .top {overflow: hidden;}
+
+/* Applying same to the keys */
+.keys span, .top span.clear {
+  float: left;
+  position: relative;
+  top: 0;
+  
+  cursor: pointer;
+  
+  width: 66px;
+  height: 36px;
+  
+  background: white;
+  border-radius: 3px;
+  box-shadow: 0px 4px rgba(0, 0, 0, 0.2);
+  
+  margin: 0 7px 11px 0;
+  
+  color: #888;
+  line-height: 36px;
+  text-align: center;
+  
+  /* prevent selection of text inside keys */
+  user-select: none;
+  
+  /* Smoothing out hover and active states using css3 transitions */
+  transition: all 0.2s ease;
+}
+
+/* Remove right margins from operator keys */
+/* style different type of keys (operators/evaluate/clear) differently */
+.keys span.operator {
+  background: #FFF0F5;
+  margin-right: 0;
+}
+
+.keys span.eval {
+  background: #f1ff92;
+  box-shadow: 0px 4px #9da853;
+  color: #888e5f;
+}
+
+.top span.clear {
+  background: #ff9fa8;
+  box-shadow: 0px 4px #ff7c87;
+  color: white;
+}
+
+/* Some hover effects */
+.keys span:hover {
+  background: #9c89f6;
+  box-shadow: 0px 4px #6b54d3;
+  color: white;
+}
+
+.keys span.eval:hover {
+  background: #abb850;
+  box-shadow: 0px 4px #717a33;
+  color: #ffffff;
+}
+
+.top span.clear:hover {
+  background: #f68991;
+  box-shadow: 0px 4px #d3545d;
+  color: white;
+}
+
+/* Simulating "pressed" effect on active state of the keys by removing the box-shadow and moving the keys down a bit */
+.keys span:active {
+  box-shadow: 0px 0px #6b54d3;
+  top: 4px;
+}
+
+.keys span.eval:active {
+  box-shadow: 0px 0px #717a33;
+  top: 4px;
+}
+
+.top span.clear:active {
+  top: 4px;
+  box-shadow: 0px 0px #d3545d;
+}
+
+     
+
+
+
+
+
+.calculator {
+   margin:2px auto;
+   width: 350px;
+  height: 320px;
+  background-color: #c0c0c0;
+  box-shadow: 0px 0px 0px 10px #666;
+  border: 5px solid black;
+  border-radius: 10px;
+}
+#display {
+   width: 320px;
+  height: 40px;
+  text-align: right;
+  background-color: black;
+  border: 3px solid white;
+  font-size: 18px;
+  left: 2px;
+  top: 2px;
+  color: #7fff00;
+}
+.btnTop{
+  color: white;
+  background-color: #6f6f6f;
+  font-size: 14px;
+  margin: auto;
+  width: 50px;
+  height: 25px;
+}
+.btnNum {
+  color: white;
+  background-color: black;
+  font-size: 14px;
+  margin: auto;
+  width: 50px;
+  height: 25px;
+}
+.btnMath {
+  color: white;
+  background-color: #ff4561;
+  font-size: 14px;
+  margin: auto;
+  width: 50px;
+  height: 25px;
+}
+.btnOpps {
+  color: white;
+  background-color: #ff9933;
+  font-size: 14px;
+  margin: auto;
+  width: 50px;
+  height: 25px;
+}
+
+
+    </style>
+</head>
+<body>
+
+
+    <!------ Include the above in your HEAD tag ---------->
+    
+     <div class="container">
+
+        <div> <p class="text">CALCULATOR</p></div>
+      
+            <div class="jumbotron mt-5">
+ 
+                    <div class="col-xs-12 ">
+                      <nav>
+                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                          <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Normal</a>
+                          <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Scientific</a>
+                              </div>
+                      </nav>
+                      <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                            <div id="calculator">
+                                <!-- Screen and clear key -->
+                                <div class="top">
+                                  <span class="clear">C</span>
+                                  <div class="screen"></div>
+                                </div>
+                                
+                                <div class="keys">
+                                  <!-- operators and other keys -->
+                                  <span>7</span>
+                                  <span>8</span>
+                                  <span>9</span>
+                                  <span class="operator">+</span>
+                                  <span>4</span>
+                                  <span>5</span>
+                                  <span>6</span>
+                                  <span class="operator">-</span>
+                                  <span>1</span>
+                                  <span>2</span>
+                                  <span>3</span>
+                                  <span class="operator">÷</span>
+                                  <span>0</span>
+                                  <span>.</span>
+                                  <span class="eval">=</span>
+                                  <span class="operator">x</span>
+                                </div>
+                              </div>
+                              
+                              <br/><br/>
+                        </div>
+                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                            <form name="sci-calc">
+                                <table class="calculator" cellspacing="0" cellpadding="1">
+                                  <tr>
+                                    <td colspan="5"><input id="display" name="display" value="0" size="28" maxlength="25"></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="button" class="btnTop" name="btnTop" value="C" onclick="this.form.display.value=  0 "></td>
+                                    <td><input type="button" class="btnTop" name="btnTop" value="<--" onclick="deleteChar(this.form.display)"></td>
+                                    <td><input type="button" class="btnTop" name="btnTop" value="=" onclick="if(checkNum(this.form.display.value)) { compute(this.form) }"></td>
+                                    <td><input type="button" class="btnOpps" name="btnOpps" value="&#960;" onclick="addChar(this.form.display,'3.14159265359')"></td>
+                                    <td><input type="button" class="btnMath" name="btnMath" value="%" onclick=" percent(this.form.display)"></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="button" class="btnNum" name="btnNum" value="7" onclick="addChar(this.form.display, '7')"></td>
+                                    <td><input type="button" class="btnNum" name="btnNum" value="8" onclick="addChar(this.form.display, '8')"></td>
+                                    <td><input type="button" class="btnNum" name="btnNum" value="9" onclick="addChar(this.form.display, '9')"></td>
+                                    <td><input type="button" class="btnOpps" name="btnOpps" value="x&#94;" onclick="if(checkNum(this.form.display.value)) { exp(this.form) }"></td>
+                                    <td><input type="button" class="btnMath" name="btnMath" value="/" onclick="addChar(this.form.display, '/')"></td>
+                                  <tr>
+                                    <td><input type="button" class="btnNum" name="btnNum" value="4" onclick="addChar(this.form.display, '4')"></td>
+                                    <td><input type="button" class="btnNum" name="btnNum" value="5" onclick="addChar(this.form.display, '5')"></td>
+                                    <td><input type="button" class="btnNum" name="btnNum" value="6" onclick="addChar(this.form.display, '6')"></td>
+                                    <td><input type="button" class="btnOpps" name="btnOpps" value="ln" onclick="if(checkNum(this.form.display.value)) { ln(this.form) }"></td>
+                                    <td><input type="button" class="btnMath" name="btnMath" value="*" onclick="addChar(this.form.display, '*')"></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="button" class="btnNum" name="btnNum" value="1" onclick="addChar(this.form.display, '1')"></td>
+                                    <td><input type="button" class="btnNum" name="btnNum" value="2" onclick="addChar(this.form.display, '2')"></td>
+                                    <td><input type="button" class="btnNum" name="btnNum" value="3" onclick="addChar(this.form.display, '3')"></td>
+                                    <td><input type="button" class="btnOpps" name="btnOpps" value="&radic;" onclick="if(checkNum(this.form.display.value)) { sqrt(this.form) }"></td>
+                                    <td><input type="button" class="btnMath" name="btnMath" value="-" onclick="addChar(this.form.display, '-')"></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="button" class="btnMath" name="btnMath" value="&#177" onclick="changeSign(this.form.display)"></td>
+                                    <td><input type="button" class="btnNum" name="btnNum" value="0" onclick="addChar(this.form.display, '0')"></td>
+                                    <td><input type="button" class="btnMath" name="btnMath" value="&#46;" onclick="addChar(this.form.display, '&#46;')"></td>
+                                    <td><input type="button" class="btnOpps" name="btnOpps" value="x&#50;" onclick="if(checkNum(this.form.display.value)) { square(this.form) }"></td>
+                                    <td><input type="button" class="btnMath" name="btnMath" value="+" onclick="addChar(this.form.display, '+')"></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="button" class="btnMath" name="btnMath" value="(" onclick="addChar(this.form.display, '(')"></td>
+                                    <td><input type="button" class="btnMath" name="btnMath" value=")" onclick="addChar(this.form.display,')')"></td>
+                                    <td><input type="button" class="btnMath" name="btnMath" value="cos" onclick="if(checkNum(this.form.display.value)) { cos(this.form) }"></td>
+                                    <td><input type="button" class="btnMath" name="btnMath" value="sin" onclick="if(checkNum(this.form.display.value)) { sin(this.form) }"></td>
+                                    <td><input type="button" class="btnMath" name="btnMath" value="tan" onclick="if(checkNum(this.form.display.value)) { tan(this.form) }"></td>
+                                 </tr>
+                                </table>
+                               </form></tr>        </div>
+                    
+                        
+                      </div>
+                    
+                    </div>
+                  </div>
+           
+
+
+
+                
+            </div>
+          </div>
+    </div>
+    
+ 
+     <script type="text/javascript">
+  // Get all the keys from document
+var keys = document.querySelectorAll('#calculator span');
+var operators = ['+', '-', 'x', '÷'];
+var decimalAdded = false;
+
+// Add onclick event to all the keys and perform operations
+for(var i = 0; i < keys.length; i++) {
+  keys[i].onclick = function(e) {
+    // Get the input and button values
+    var input = document.querySelector('.screen');
+    var inputVal = input.innerHTML;
+    var btnVal = this.innerHTML;
+    
+    // Now, just append the key values (btnValue) to the input string and finally use javascript's eval function to get the result
+    // If clear key is pressed, erase everything
+    if(btnVal == 'C') {
+      input.innerHTML = '';
+      decimalAdded = false;
+    }
+    
+    // If eval key is pressed, calculate and display the result
+    else if(btnVal == '=') {
+      var equation = inputVal;
+      var lastChar = equation[equation.length - 1];
+      
+      // Replace all instances of x and ÷ with * and / respectively. This can be done easily using regex and the 'g' tag which will replace all instances of the matched character/substring
+      equation = equation.replace(/x/g, '*').replace(/÷/g, '/');
+      
+      // Final thing left to do is checking the last character of the equation. If it's an operator or a decimal, remove it
+      if(operators.indexOf(lastChar) > -1 || lastChar == '.')
+        equation = equation.replace(/.$/, '');
+      
+      if(equation)
+        input.innerHTML = eval(equation);
+        
+      decimalAdded = false;
+    }
+    
+    // Basic functionality of the calculator is complete. But there are some problems like 
+    // 1. No two operators should be added consecutively.
+    // 2. The equation shouldn't start from an operator except minus
+    // 3. not more than 1 decimal should be there in a number
+    
+    // We'll fix these issues using some simple checks
+    
+    // indexOf works only in IE9+
+    else if(operators.indexOf(btnVal) > -1) {
+      // Operator is clicked
+      // Get the last character from the equation
+      var lastChar = inputVal[inputVal.length - 1];
+      
+      // Only add operator if input is not empty and there is no operator at the last
+      if(inputVal != '' && operators.indexOf(lastChar) == -1) 
+        input.innerHTML += btnVal;
+      
+      // Allow minus if the string is empty
+      else if(inputVal == '' && btnVal == '-') 
+        input.innerHTML += btnVal;
+      
+      // Replace the last operator (if exists) with the newly pressed operator
+      if(operators.indexOf(lastChar) > -1 && inputVal.length > 1) {
+        // Here, '.' matches any character while $ denotes the end of string, so anything (will be an operator in this case) at the end of string will get replaced by new operator
+        input.innerHTML = inputVal.replace(/.$/, btnVal);
+      }
+      
+      decimalAdded =false;
+    }
+    
+    // Now only the decimal problem is left. We can solve it easily using a flag 'decimalAdded' which we'll set once the decimal is added and prevent more decimals to be added once it's set. It will be reset when an operator, eval or clear key is pressed.
+    else if(btnVal == '.') {
+      if(!decimalAdded) {
+        input.innerHTML += btnVal;
+        decimalAdded = true;
+      }
+    }
+    
+    // if any other key is pressed, just append it
+    else {
+      input.innerHTML += btnVal;
+    }
+    
+    // prevent page jumps
+    e.preventDefault();
+  } 
+}
+ 
+ </script>      
+    
+    <script type="text/javascript">
+        function addChar(input, character) {
+   if(input.value == null || input.value == "0")
+     input.value = character
+   else
+     input.value += character
+ }
+ 
+ function cos(form) {
+   form.display.value = Math.cos(form.display.value);
+ }
+ 
+ function sin(form) {
+   form.display.value = Math.sin(form.display.value);
+ }
+ 
+ function tan(form) {
+   form.display.value = Math.tan(form.display.value);
+ }
+ 
+ function sqrt(form) {
+   form.display.value = Math.sqrt(form.display.value);
+ }
+ 
+ function ln(form) {
+   form.display.value = Math.log(form.display.value);
+ }
+ 
+ function exp(form) {
+   form.display.value = Math.exp(form.display.value);
+ }
+ 
+ function deleteChar(input) {
+   input.value = input.value.substring(0, input.value.length - 1)
+ }
+ var val = 0.0;
+ function percent(input) {
+   val = input.value;
+   input.value = input.value + "%";
+ }
+ 
+ function changeSign(input) {
+   if(input.value.substring(0, 1) == "-")
+     input.value = input.value.substring(1, input.value.length)
+   else
+     input.value = "-" + input.value
+ }
+ 
+ function compute(form) {
+   //if (val !== 0.0) {
+    // var percent = form.display.value;  
+    // percent = pcent.substring(percent.indexOf("%")+1);
+    // form.display.value = parseFloat(percent)/100 * val;
+     //val = 0.0;
+  // } else 
+     form.display.value = eval(form.display.value);
+   }
+ 
+ 
+ function square(form) {
+   form.display.value = eval(form.display.value) * eval(form.display.value)
+ }
+ 
+ function checkNum(str) {
+   for (var i = 0; i < str.length; i++) {
+     var ch = str.charAt(i);
+     if (ch < "0" || ch > "9") {
+       if (ch != "/" && ch != "*" && ch != "+" && ch != "-" && ch != "."
+         && ch != "(" && ch!= ")" && ch != "%") {
+         alert("invalid entry!")
+         return false
+         }
+       }
+     }
+     return true
+ }
+      </script>
+</body>
+</html>
